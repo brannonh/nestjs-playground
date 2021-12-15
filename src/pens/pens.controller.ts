@@ -4,6 +4,7 @@ import { PensService } from './pens.service';
 import { PlaygroundExceptionFilter } from 'src/filters/playground-exception.filter';
 import { JoiValidationPipe } from 'src/pipes/joi-validation.pipe';
 import { CreatePenSchema } from './schemas/create-pen.schema';
+import { DtoValidationPipe } from 'src/pipes/dto-validation.pipe';
 
 @Controller('pens')
 @UseFilters(PlaygroundExceptionFilter)
@@ -11,8 +12,8 @@ export class PensController {
   constructor(private pensService: PensService) {}
 
   @Post()
-  @UsePipes(new JoiValidationPipe(CreatePenSchema))
-  async create(@Body() createPenDto: CreatePenDto): Promise<string> {
+  // @UsePipes(new JoiValidationPipe(CreatePenSchema))
+  async create(@Body(new DtoValidationPipe()) createPenDto: CreatePenDto): Promise<string> {
     return 'This action adds a new pen.';
   }
 
