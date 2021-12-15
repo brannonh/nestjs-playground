@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseFilters } from '@nestjs/common';
 import { CreatePenDto } from './dto/pens.dto';
 import { PensService } from './pens.service';
 import { Pen } from './interfaces/pen.interface';
+import { PlaygroundExceptionFilter } from 'src/filters/playground-exception.filter';
 
 @Controller('pens')
+@UseFilters(PlaygroundExceptionFilter)
 export class PensController {
   constructor(private pensService: PensService) {}
 
