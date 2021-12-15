@@ -1,6 +1,8 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { logger } from './middleware/logger/logger.middleware';
+import { PensController } from './pens/pens.controller';
 import { PensModule } from './pens/pens.module';
 
 @Module({
@@ -8,4 +10,8 @@ import { PensModule } from './pens/pens.module';
   controllers: [ AppController ],
   providers: [ AppService ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(logger).forRoutes(PensController);
+  }
+}
